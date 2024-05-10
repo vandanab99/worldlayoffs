@@ -110,3 +110,30 @@ modify column date date;
 
 -- Null, blank values
 
+select * from layoffs_staging2
+where company in ('Airbnb','Carvana','Juluu');
+
+select * from layoffs_staging2 t1
+join layoffs_staging2 t2
+on t1.company = t2.company
+where (t1.industry is null or t1.industry = '')
+and t2.industry is not null;
+
+update layoffs_staging2 t1
+join layoffs_staging2 t2
+on t1.company = t2.company
+set t1.industry = t2.industry
+where (t1.industry is null or t1.industry = '')
+and t2.industry is not null
+and t1.date <> t2.date;
+
+select * from layoffs_staging2;
+
+select * from layoffs_staging2
+where total_laid_off is null
+ and percentage_laid_off is null;
+
+delete
+from layoffs_staging2
+where total_laid_off is null
+ and percentage_laid_off is null;
